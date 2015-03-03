@@ -50,6 +50,10 @@ body, html {
 
             border-left: none;
         }
+        #header .menu li.active {
+            background: #7A0147;
+            font-weight: bold;
+        }
 
 #content {
     float: left;

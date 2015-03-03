@@ -18,10 +18,10 @@ $(function() {
         if($next != null)
         {
             showView($next.data('view'));
-        }
 
-        $('.menu li').removeClass('active');
-        $next.addClass('active');
+            $('.menu li').removeClass('active');
+            $next.addClass('active');
+        }
     });
 
     $("#content").on('swiperight', function() {
@@ -31,10 +31,10 @@ $(function() {
         if($prev != null)
         {
             showView($prev.data('view'));
-        }
 
-        $('.menu li').removeClass('active');
-        $prev.addClass('active');
+            $('.menu li').removeClass('active');
+            $prev.addClass('active');
+        }
     });
 
     var searchTimeout;
@@ -63,7 +63,7 @@ $(function() {
 
     function search(query)
     {
-        ClearListView();
+        ClearView();
         ShowLoading();
 
         $.get( "https://api.eet.nu/venues?query="+query, function( data ) {
@@ -86,7 +86,7 @@ $(function() {
 
     function Overview()
     {
-        ClearListView();
+        ClearView();
         ShowLoading();
 
         $.get( "https://api.eet.nu/venues", function( data ) {
@@ -98,7 +98,7 @@ $(function() {
 
     function PriceQuality()
     {
-        ClearListView();
+        ClearView();
         ShowLoading();
 
         $.get( "https://api.eet.nu/venues?sort_by=reviews", function( data ) {
@@ -137,9 +137,10 @@ $(function() {
         });
     }
 
-    function ClearListView()
+    function ClearView()
     {
         $('#content .list-view').empty();
+        $('#content .details-view').empty();
     }
 
     function AppendToListView(data)
@@ -175,7 +176,7 @@ $(function() {
             return false
         }
 
-        ClearListView();
+        ClearView();
         ShowLoading();
 
         $.get('https://api.eet.nu/venues/'+id, function(data) {
@@ -187,7 +188,6 @@ $(function() {
 
     function renderDetailView(data)
     {
-        console.log(data);
         var html = '<h2>'+data.name+'</h2><span class="category">'+data.category+'</span><p class="description">'+data.description+'</p><ul class="contact"><li>Website: <a href="'+data.url+'">ga naar eet.nu</a></li><li >Telefoonnummer: <span class="call">'+data.telephone+'</span></li></ul>';
 
         html += '<ul class="images">';
