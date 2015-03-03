@@ -11,7 +11,7 @@ $(function() {
         $this.addClass('active');
     });
 
-    $(document).on('swipeLeft', function() {
+    $(document).on('swipeleft', function() {
         $active = $('.menu .active');
         $next = $active.next();
 
@@ -24,7 +24,7 @@ $(function() {
         $next.addClass('active');
     });
 
-    $(document).on('swipeRight', function() {
+    $(document).on('swiperight', function() {
         $active = $('.menu .active');
         $prev = $active.prev();
 
