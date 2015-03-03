@@ -11,7 +11,7 @@ $(function() {
         $this.addClass('active');
     });
 
-    $(document).on('swipe', function() {
+    $(document).on('swipeLeft', function() {
         $active = $('.menu .active');
         $next = $active.next();
 
@@ -22,6 +22,19 @@ $(function() {
 
         $('.menu li').removeClass('active');
         $next.addClass('active');
+    });
+
+    $(document).on('swipeRight', function() {
+        $active = $('.menu .active');
+        $prev = $active.prev();
+
+        if($prev != null)
+        {
+            showView($prev.data('view'));
+        }
+
+        $('.menu li').removeClass('active');
+        $prev.addClass('active');
     });
 
     var searchTimeout;
