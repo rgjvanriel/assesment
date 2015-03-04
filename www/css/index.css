@@ -3,6 +3,12 @@ body, html {
     padding: 0;
 }
 
+a,
+.call {
+    color: #9e005d;
+    text-decoration: none;
+}
+
 #app {
     padding: 10px;
     width: calc(100% - 20px);
@@ -19,7 +25,7 @@ body, html {
 
         #header .search input {
             width: 100%;
-            height: 80px;
+            height: 40px;
         }
 
     #header .menu {
@@ -34,7 +40,7 @@ body, html {
         #header .menu li {
             float: left;
             width: calc(33.3333333% - 1px);
-            height: 150px;
+            height: 80px;
 
             border-left: 1px solid #fff;
 
@@ -42,7 +48,7 @@ body, html {
             color: #fff;
             text-shadow: none;
             text-align: center;
-            line-height: 150px;
+            line-height: 80px;
             cursor: pointer;
         }
         #header .menu li:first-child {
@@ -108,15 +114,30 @@ body, html {
     #content .details-view {
         margin: 0;
         padding: 0;
+        width: 100%;
     }
 
+        #content .details-view h2 {
+            margin-bottom: 0;
+        }
+
+        #content .details-view .category {
+            font-weight: bold;
+        }
+
         #content .details-view ul {
-            margin: 0;
+            margin: 10px 0 0 0;
             padding: 0;
+            width: 100%;
 
             list-style: none;
         }
 
         #content .details-view .images li {
             float: left;
+            width: 100%;
         }
+
+            #content .details-view .images li img {
+                width: 100%;
+            }

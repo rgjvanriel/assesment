@@ -11,11 +11,11 @@ $(function() {
         $this.addClass('active');
     });
 
-    $("#content").on('swipeleft', function() {
+    $(".list-view").on('swipeleft', function() {
         $active = $('.menu .active');
         $next = $active.next();
 
-        if($next != null)
+        if($next.length > 0)
         {
             showView($next.data('view'));
 
@@ -24,11 +24,11 @@ $(function() {
         }
     });
 
-    $("#content").on('swiperight', function() {
+    $(".list-view").on('swiperight', function() {
         $active = $('.menu .active');
         $prev = $active.prev();
 
-        if($prev != null)
+        if($prev.length > 0)
         {
             showView($prev.data('view'));
 
@@ -37,10 +37,15 @@ $(function() {
         }
     });
 
+    $(".details-view").on('swiperight', function() {
+        showView($('.menu .active').data('view'));
+    });
+
     var searchTimeout;
 
-    $('.search input').on('tap', function() {
+    $('.search input').on('keyup', function() {
         $this = $(this);
+        clearTimeout(searchTimeout);
         searchTimeout = setTimeout(function() {
             search($this.val());
         }, 2000);
@@ -67,18 +72,7 @@ $(function() {
         ShowLoading();
 
         $.get( "https://api.eet.nu/venues?query="+query, function( data ) {
-            var result = data['results'];
-
-            $.each(result, function(key, value) {
-                var html = "<li><a href='"+value.url+"'>";
-                if(value.images.cropped[0] != null)
-                {
-                    html += "<img class='thumb' src='"+value.images.cropped[0]+"' alt='' title=''>";
-                }
-                html += "<strong class='title'>"+value.name+"</strong><span>Categorie: "+value.category+"</span></a></li>";
-
-                AppendToListView(html);
-            });
+            renderListView(data['results']);
         }).done(function() {
             HideLoading();
         });
@@ -113,7 +107,7 @@ $(function() {
         lat = google.loader.ClientLocation.latitude;
         lng = google.loader.ClientLocation.longitude;
 
-        ClearListView();
+        ClearView();
         ShowLoading();
 
         $.get( "https://api.eet.nu/venues?max_distance=5000&geolocation="+lat+","+lng, function( data ) {
