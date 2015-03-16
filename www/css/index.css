@@ -67,14 +67,14 @@ a,
 }
 
     /** List view **/
-    #content .list-view {
+    #content .view {
         margin: 0;
         padding: 0;
 
         list-style: none;
     }
 
-        #content .list-view li {
+        #content .view li {
             float: left;
             margin: 0 0 10px 0;
             padding: 10px 0 0 0;
@@ -82,20 +82,20 @@ a,
 
             border-top: 1px solid #aaa;
         }
-        #content .list-view li:first-child {
+        #content .view li:first-child {
             margin: 10px 0 10px 0;
             padding: 0;
 
             border-top: 0;
         }
 
-            #content .list-view li .thumb {
+            #content .view li .thumb {
                 float: left;
                 margin-right: 10px;
                 width: 150px;
             }
 
-            #content .list-view li * {
+            #content .view li * {
                 display: block;
                 float: left;
                 width: calc(100% - 160px);
@@ -103,7 +103,7 @@ a,
                 font-size: 12px;
             }
 
-            #content .list-view li .title {
+            #content .view li .title {
                 margin-bottom: 5px;
 
                 font-size: 14px;

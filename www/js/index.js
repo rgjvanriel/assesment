@@ -1,55 +1,32 @@
 $(function() {
 
-    Overview();
+    // Cache check
+    if(window.localStorage.getItem('lastcached') != null)
+    {
+        //console.log(window.localStorage.getItem('overview'));
+        var view = getVenuesView(window.localStorage.getItem('overview'));
+    }
+    else
+    {
+        retrieveVenues('', function(data) {
+            var view = getVenuesView(data.results);
+            renderView(view);
+        });
+    }
 
-    $(document).on('tap', '.menu li', function(e) {
-        $this = $(e.currentTarget);
+    function renderView(html)
+    {
+        $('.view').html(html);
+    }
 
-        showView($this.data('view'));
+    cacheVenues();
 
-        $('.menu li').removeClass('active');
-        $this.addClass('active');
-    });
+    if(window.localStorage.getItem('lastcached') != null && Math.floor(new Date().getTime() / 1000 - 30) > window.localStorage.getItem('lastcached'))
+    {
+        cacheVenues();
+    }
 
-    $(".list-view").on('swipeleft', function() {
-        $active = $('.menu .active');
-        $next = $active.next();
-
-        if($next.length > 0)
-        {
-            showView($next.data('view'));
-
-            $('.menu li').removeClass('active');
-            $next.addClass('active');
-        }
-    });
-
-    $(".list-view").on('swiperight', function() {
-        $active = $('.menu .active');
-        $prev = $active.prev();
-
-        if($prev.length > 0)
-        {
-            showView($prev.data('view'));
-
-            $('.menu li').removeClass('active');
-            $prev.addClass('active');
-        }
-    });
-
-    $(".details-view").on('swiperight', function() {
-        showView($('.menu .active').data('view'));
-    });
-
-    var searchTimeout;
-
-    $('.search input').on('keyup', function() {
-        $this = $(this);
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(function() {
-            search($this.val());
-        }, 2000);
-    });
+    /*Overview();
 
     function showView(view)
     {
@@ -152,12 +129,12 @@ $(function() {
     function HideLoading()
     {
         $.mobile.loading('hide');
-    }
+    }*/
 
     /**
      * Retrieve venue information
      */
-    $(document).on('tap', '.list-view li', function(e) {
+    /*$(document).on('tap', '.list-view li', function(e) {
         $this = $(e.currentTarget);
 
         retrieveVenueData($this.data('id'));
@@ -191,21 +168,6 @@ $(function() {
         html += '</ul>';
 
         $('.details-view').append(html);
-    }
-
-
-    /**
-     * Call number via native
-     */
-    $(document).on('tap', '.call', function(e) {
-        $this = $(e.currentTarget);
-
-        call($this.html());
-    });
-
-    function call(number)
-    {
-        window.open('tel:'+number, '_system');
-    }
+    }*/
 
 });
