@@ -170,4 +170,12 @@ $(function() {
         $('.details-view').append(html);
     }*/
 
+
+    var template = Handlebars.compile($('#page-home').html());
+    $('#content').html(template(
+        {
+
+        }));
+
+
 });
