@@ -21,7 +21,7 @@ $(function()
         window.localStorage.setItem("cache_time_setting", $('.cache-time').val());
         window.localStorage.setItem("distance_setting", $('.distance').val());
 
-        //navigator.notification.vibrate(1000);
+        navigator.notification.vibrate(1000);
 
         $('.settings-view').hide();
         $('.app-views').show();
