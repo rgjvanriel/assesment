@@ -46,6 +46,19 @@ function getVenuesListView(data)
 	return html;
 }
 
+function getVenuesDetailView(data)
+{
+	var html = '<h2>'+data.name+'</h2><span class="category">'+data.category+'</span><p class="description">'+data.description+'</p><ul class="contact"><li>Website: <a href="'+data.url+'">ga naar eet.nu</a></li><li >Telefoonnummer: <span class="call">'+data.telephone+'</span></li></ul>';
+
+    html += '<ul class="images">';
+    $.each(data.images.cropped, function(key,value) {
+        html += '<li><img src="'+value+'" /></li>';
+    });
+    html += '</ul>';
+
+	return html;
+}
+
 function cacheVenues()
 {
 	var currentTime = Math.floor(new Date().getTime() / 1000);
