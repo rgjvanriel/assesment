@@ -21,7 +21,7 @@ $(function()
         // save local settings..
         window.localStorage.setItem("cache_time", $('.cache-time').val());
 
-        if(window.localStorage.getItem(cache_item) != null)
+        if(window.localStorage.getItem('cache_time') != null)
         {
             navigator.notification.vibrate(1000);
 
