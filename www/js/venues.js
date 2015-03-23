@@ -123,7 +123,7 @@ function getVenueDetailsView(data)
     $.each(data.images.original, function(key,value) {
         html += '<li><img src="'+value+'" /></li>';
     });
-    html += '</ul><span class="back">< Ga terug naar het overzicht</span>';
+    html += '</ul><span class="back">< Terug</span>';
 
 	return html;
 }
