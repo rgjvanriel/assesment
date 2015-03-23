@@ -32,7 +32,7 @@ a,
         float: left;
         margin: 10px 0 0 -10px;
         padding: 0;
-        width: calc(100% + 20px);
+        width: calc(100% - 40px);
 
         list-style: none;
     }
@@ -60,6 +60,25 @@ a,
             background: #7A0147;
             font-weight: bold;
         }
+
+    #header .settings-btn {
+        position: relative;
+        float: left;
+        right: 0;
+        margin: 10px -10px 0 0;
+        width: 59px;
+        height: 80px;
+
+        border-left: 1px solid #fff;
+
+        background: #9e005d;
+        color: #fff;
+        text-shadow: none;
+        text-align: center;
+        line-height: 80px;
+        cursor: pointer;
+        font-size: 20px;
+    }
 
 #content {
     float: left;
@@ -227,3 +246,30 @@ a,
                     #content .settings-view .settings .input-wrapper .ui-input-text > .ui-input-text {
                         width: 100%;
                     }
+
+@media only screen and (min-width: 768px) {
+    #content .list-view {
+        display: block !important;
+        float: left;
+        width: calc(35% - 1px);
+
+        border-right: 1px solid #aaa;
+    }
+
+    #content .details-view {
+        position: relative;
+        display: block !important;
+        float: left;
+        top: 20px;
+        left: 20px;
+        width: calc(65% - 20px);
+    }
+
+        #content .details-view .back {
+            display: none;
+        }
+
+        #content .details-view h2 {
+            margin-top: 0;
+        }
+}

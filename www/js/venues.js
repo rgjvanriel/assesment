@@ -115,6 +115,8 @@ function retrieveVenueDetails(id, callback)
 
 function getVenueDetailsView(data)
 {
+	if(data.description == null) data.description = '';
+
 	var html = '<h2>'+data.name+'</h2><span class="category">'+data.category+'</span><p class="description">'+data.description+'</p><ul class="contact"><li>Website: <a href="'+data.url+'">ga naar eet.nu</a></li><li >Telefoonnummer: <span class="call">'+data.telephone+'</span></li></ul>';
 
     html += '<ul class="images">';

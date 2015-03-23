@@ -16,8 +16,6 @@ $(function()
 
     $('.settings-view .save').on('tap', function(e)
     {
-        
-
         // save local settings..
         window.localStorage.setItem("cache_time", $('.cache-time').val());
 
