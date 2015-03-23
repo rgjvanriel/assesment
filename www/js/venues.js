@@ -3,21 +3,30 @@
  */
 
 var baseUrl = 'https://api.eet.nu/venues';
-var maxDistance = 5000;
+var maxDistance = window.localStorage.getItem("distance_setting") || 5000;
 var isDebug = true;
-var lat = 0;
-var lng = 0;
+
+function onSuccess(position) {
+	params['distance'] = '?max_distance='+maxDistance+'&geolocation='+position.coords.latitude+','+position.coords.longitude;
+};
+
+function onError(error) {
+    alert('Wij kunnen uw geolocaties niet ophalen, controleer of uw geolocatie setting aan staat.');
+}
+
+navigator.geolocation.getCurrentPosition(onSuccess, onError);
 
 var params = {
 	'overview'	: '?1=1',
 	'quality'	: '?sort_by=reviews',
-	'distance'	: '?max_distance='+maxDistance+'&geolocation='+lat+','+lng,
+	'distance'	: '?max_distance='+maxDistance,
 	'search'	: '?query='
 };
 
 $.fn.renderListView = function(html)
 {
     $('.app-views .details-view').hide();
+    $('.settings-view').hide();
     $('.app-views .list-view').show();
     $(this).html(html);
 }
@@ -25,6 +34,7 @@ $.fn.renderListView = function(html)
 $.fn.renderDetailsView = function(html)
 {
     $('.app-views .list-view').hide();
+    $('.settings-view').hide();
     $('.app-views .details-view').show();
     $(this).html(html);
 }
@@ -67,20 +77,7 @@ function retrieveVenuesList(view, callback, requestLive, query)
 	{
 		if(typeof query === 'undefined') query = '';
 
-		if(view == 'distance')
-		{
-			function onSuccess(position) {
-				lat = position.coords.latitude;
-				lng = position.coords.longitude;
-			};
-
-			function onError(error) {
-			    alert('Kon de geolocaties niet ophalen, kijk of u geolocaties aan heeft staan.');
-			}
-
-			navigator.geolocation.getCurrentPosition(onSuccess, onError);
-		}
-
+		console.log(baseUrl+params[view]+query);
 		$.get(baseUrl+params[view]+query, function(data) {
 			callback(data['results']);
 		});
