@@ -1,27 +1,19 @@
 $(function() {
 
-    // Cache check
-    if(window.localStorage.getItem('lastcached') != null)
+    $.fn.renderView = function(html)
     {
-        //console.log(window.localStorage.getItem('overview'));
-        var view = getVenuesView(window.localStorage.getItem('overview'));
-    }
-    else
-    {
-        retrieveVenues('', function(data) {
-            var view = getVenuesView(data.results);
-            renderView(view);
-        });
+        console.log(html);
+        $('.list-view').html(html);
     }
 
-    function renderView(html)
-    {
-        $('.view').html(html);
-    }
+    $.mobile.loading('show');
+    retrieveVenues($('.menu .active').data('view'), function(data) {
+        var view = getVenuesListView(data);
+        $('.list-view').renderView(view);
+        $.mobile.loading('hide');
+    });
 
-    cacheVenues();
-
-    if(window.localStorage.getItem('lastcached') != null && Math.floor(new Date().getTime() / 1000 - 30) > window.localStorage.getItem('lastcached'))
+    if(window.localStorage.getItem('lastcached') != null && Math.floor(new Date().getTime() / 1000 - 86400) > window.localStorage.getItem('lastcached'))
     {
         cacheVenues();
     }

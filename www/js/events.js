@@ -3,7 +3,12 @@ $(function() {
 	$(document).on('tap', '.menu li', function(e) {
         $this = $(e.currentTarget);
 
-        showView($this.data('view'));
+        $.mobile.loading('show');
+        retrieveVenues($this.data('view'), function(data) {
+            var view = getVenuesListView(data);
+            $('.list-view').renderView(view);
+            $.mobile.loading('hide');
+        });
 
         $('.menu li').removeClass('active');
         $this.addClass('active');

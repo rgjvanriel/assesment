@@ -3,21 +3,34 @@
  */
 
 var baseUrl = 'https://api.eet.nu/venues';
+var maxDistance = 5000;
 var isDebug = true;
 
-function retrieveVenues(params, callback)
-{
-	var results;
+var params = {
+	'overview'	: '?1=1',
+	'quality'	: '?sort_by=reviews',
+	'distance'	: '?max_distance='+maxDistance+'&geolocation='+google.loader.ClientLocation.latitude+','+google.loader.ClientLocation.longitude
+};
 
-	if(typeof params == 'undefined') params = '';
-	else if(isDebug && params === '') { params = '?1=1'; }
-	
-	$.get(baseUrl+params, function(data) {
-		callback(data);
-	});
+function retrieveVenues(view, callback, requestLive)
+{
+	if(typeof requestLive === 'undefined') requestLive = false;
+
+	if(window.localStorage.getItem(view) != 'undefined' && window.localStorage.getItem(view) != null && requestLive == false)
+	{
+		console.log('cache call');
+		callback(JSON.parse(window.localStorage.getItem(view)));
+	}
+	else
+	{
+		console.log('live call');
+		$.get(baseUrl+params[view], function(data) {
+			callback(data['results']);
+		});
+	}
 }
 
-function getVenuesView(data)
+function getVenuesListView(data)
 {
 	var html = '';
 
@@ -38,20 +51,11 @@ function cacheVenues()
 	var currentTime = Math.floor(new Date().getTime() / 1000);
 	window.localStorage.setItem('lastcached', currentTime);
 
-	retrieveVenues("", function(data) {
-		console.log(JSON.stringify(data.result));
-		window.localStorage.setItem('overview', JSON.stringify(data.result));
-	});
+	retrieveVenues('overview', function(data) {
+		window.localStorage.setItem('overview', JSON.stringify(data));
+	}, true);
 	
-	retrieveVenues("?sort_by=reviews", function(data) {
-		window.localStorage.setItem('quality', JSON.stringify(data.result));
-	});
-
-	lat = google.loader.ClientLocation.latitude;
-    lng = google.loader.ClientLocation.longitude;
-
-	retrieveVenues('?max_distance=5000&geolocation='+lat+','+lng, function(data) {
-
-		window.localStorage.setItem('distanc', JSON.stringify(data.result));
-	});
+	retrieveVenues('quality', function(data) {
+		window.localStorage.setItem('quality', JSON.stringify(data));
+	}, true);
 };
