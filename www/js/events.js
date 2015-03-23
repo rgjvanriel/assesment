@@ -33,7 +33,7 @@ $(function() {
 
         if($next.length > 0)
         {
-            createVenuesListView($this.data('view'));
+            createVenuesListView($next.data('view'));
 
             $('.menu li').removeClass('active');
             $next.addClass('active');
@@ -46,7 +46,7 @@ $(function() {
 
         if($prev.length > 0)
         {
-            createVenuesListView($this.data('view'));
+            createVenuesListView($prev.data('view'));
 
             $('.menu li').removeClass('active');
             $prev.addClass('active');
