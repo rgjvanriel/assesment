@@ -12,18 +12,35 @@ var params = {
 	'distance'	: '?max_distance='+maxDistance+'&geolocation='+google.loader.ClientLocation.latitude+','+google.loader.ClientLocation.longitude
 };
 
-function retrieveVenues(view, callback, requestLive)
+$.fn.renderView = function(html)
+{
+    $('.app-views .view').html('');
+    $(this).html(html);
+}
+
+/**
+ * List view
+ */
+function createVenuesListView(view)
+{
+	$.mobile.loading('show');
+    retrieveVenuesList(view, function(data) {
+        var view = getVenuesListView(data);
+        $('.list-view').renderView(view);
+        $.mobile.loading('hide');
+    });
+}
+
+function retrieveVenuesList(view, callback, requestLive)
 {
 	if(typeof requestLive === 'undefined') requestLive = false;
 
 	if(window.localStorage.getItem(view) != 'undefined' && window.localStorage.getItem(view) != null && requestLive == false)
 	{
-		console.log('cache call');
 		callback(JSON.parse(window.localStorage.getItem(view)));
 	}
 	else
 	{
-		console.log('live call');
 		$.get(baseUrl+params[view], function(data) {
 			callback(data['results']);
 		});
@@ -46,19 +63,32 @@ function getVenuesListView(data)
 	return html;
 }
 
-function getVenuesDetailView(data)
+/**
+ * Details view
+ */
+function retrieveVenueDetails(id, callback)
+{
+	$.get(baseUrl+"/"+id, function(data) {
+		callback(data);
+	});
+}
+
+function getVenueDetailsView(data)
 {
 	var html = '<h2>'+data.name+'</h2><span class="category">'+data.category+'</span><p class="description">'+data.description+'</p><ul class="contact"><li>Website: <a href="'+data.url+'">ga naar eet.nu</a></li><li >Telefoonnummer: <span class="call">'+data.telephone+'</span></li></ul>';
 
     html += '<ul class="images">';
-    $.each(data.images.cropped, function(key,value) {
+    $.each(data.images.original, function(key,value) {
         html += '<li><img src="'+value+'" /></li>';
     });
-    html += '</ul>';
+    html += '</ul><span class="back">< Ga terug naar het overzicht</span>';
 
 	return html;
 }
 
+/**
+ * Venues list cache
+ */
 function cacheVenues()
 {
 	var currentTime = Math.floor(new Date().getTime() / 1000);

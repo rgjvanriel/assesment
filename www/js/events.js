@@ -2,16 +2,25 @@ $(function() {
 
 	$(document).on('tap', '.menu li', function(e) {
         $this = $(e.currentTarget);
-
-        $.mobile.loading('show');
-        retrieveVenues($this.data('view'), function(data) {
-            var view = getVenuesListView(data);
-            $('.list-view').renderView(view);
-            $.mobile.loading('hide');
-        });
+        createVenuesListView($this.data('view'));
 
         $('.menu li').removeClass('active');
         $this.addClass('active');
+    });
+
+    $(document).on('tap', '.list-view li', function(e) {
+        $this = $(e.currentTarget);
+
+        $.mobile.loading('show');
+        retrieveVenueDetails($this.data('id'), function(data) {
+            var view = getVenueDetailsView(data);
+            $('.details-view').renderView(view);
+            $.mobile.loading('hide');
+        });
+    });
+
+    $(document).on('tap', '.details-view .back', function(e) {
+        createVenuesListView($('.menu .active').data('view'));
     });
 
 

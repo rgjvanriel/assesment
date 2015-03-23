@@ -81,6 +81,7 @@ a,
             width: 100%;
 
             border-top: 1px solid #aaa;
+            cursor: pointer;
         }
         #content .list-view li:first-child {
             margin: 10px 0 10px 0;
@@ -112,6 +113,7 @@ a,
 
     /** Details view **/
     #content .details-view {
+        position: relative;
         margin: 0;
         padding: 0;
         width: 100%;
@@ -141,3 +143,17 @@ a,
             #content .details-view .images li img {
                 width: 100%;
             }
+
+        #content .details-view .back {
+            position: absolute;
+            display: block;
+            top: 0;
+            right: 0;
+            padding: 5px 10px;
+
+            background: #9e005d;
+            border-radius: 4px;
+            color: #fff;
+            text-shadow: none;
+            cursor: pointer;
+        }
