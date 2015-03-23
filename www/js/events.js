@@ -14,20 +14,21 @@ $(function() {
         $.mobile.loading('show');
         retrieveVenueDetails($this.data('id'), function(data) {
             var view = getVenueDetailsView(data);
-            $('.details-view').renderView(view);
+            $('.details-view').renderDetailsView(view);
             $.mobile.loading('hide');
         });
     });
 
     $(document).on('tap', '.details-view .back', function(e) {
-        createVenuesListView($('.menu .active').data('view'));
+        $('.app-views .details-view').hide();
+        $('.app-views .list-view').show();
     });
 
 
 	/**
 	 * Swipe events
 	 */
-    $(".list-view").on('swipeleft', function() {
+    $('.list-view').on('swipeleft', function() {
         $active = $('.menu .active');
         $next = $active.next();
 
@@ -40,7 +41,7 @@ $(function() {
         }
     });
 
-    $(".list-view").on('swiperight', function() {
+    $('.list-view').on('swiperight', function() {
         $active = $('.menu .active');
         $prev = $active.prev();
 
@@ -67,7 +68,7 @@ $(function() {
         $this = $(this);
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(function() {
-            search($this.val());
+            createSearchVenuesListView('search', $this.val());
         }, 2000);
     });
 

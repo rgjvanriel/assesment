@@ -1,29 +1,25 @@
 $(function()
 {
-
     $('.settings-btn').on('tap', function(e)
     {
-        e.preventDefault();
+        $('.app-views').hide();
+        $('.settings-view').show();
 
-        $('.settings-page').show();
-        $('.default-page').hide();
-
-        $('.cache-time').val(window.localStorage.getItem("cache_time", ""));
+        $('.cache-time').val(window.localStorage.getItem("cache_time"));
     });
 
-    $('.settings-back-btn').on('tap', function(e)
+    $('.settings-view .back').on('tap', function(e)
     {
-        e.preventDefault();
-
-        $('.settings-page').hide();
-        $('.default-page').show();
+        $('.settings-view').hide();
+        $('.app-views').show();
     });
 
-    $('body').on('click', '.btn-save', function(e)
-        {
-            e.preventDefault();
+    $('.settings-view .save').on('tap', function(e)
+    {
+        // save local settings..
+        window.localStorage.setItem("cache_time", $('.cache-time').val());
 
-            // save local settings..
-            window.localStorage.setItem("cache_time", $('.cache-time').val());
-        });
+        $('.settings-view').hide();
+        $('.app-views').show();
+    });
 });

@@ -9,13 +9,35 @@ var isDebug = true;
 var params = {
 	'overview'	: '?1=1',
 	'quality'	: '?sort_by=reviews',
-	'distance'	: '?max_distance='+maxDistance+'&geolocation='+google.loader.ClientLocation.latitude+','+google.loader.ClientLocation.longitude
+	'distance'	: '?max_distance='+maxDistance+'&geolocation='+google.loader.ClientLocation.latitude+','+google.loader.ClientLocation.longitude,
+	'search'	: '?query='
 };
 
-$.fn.renderView = function(html)
+$.fn.renderListView = function(html)
 {
-    $('.app-views .view').html('');
+    $('.app-views .details-view').hide();
+    $('.app-views .list-view').show();
     $(this).html(html);
+}
+
+$.fn.renderDetailsView = function(html)
+{
+    $('.app-views .list-view').hide();
+    $('.app-views .details-view').show();
+    $(this).html(html);
+}
+
+/**
+ * Search
+ */
+function createSearchVenuesListView(view, query)
+{
+	$.mobile.loading('show');
+    retrieveVenuesList(view, function(data) {
+        var view = getVenuesListView(data);
+        $('.list-view').renderListView(view);
+        $.mobile.loading('hide');
+    }, true, query);
 }
 
 /**
@@ -26,12 +48,12 @@ function createVenuesListView(view)
 	$.mobile.loading('show');
     retrieveVenuesList(view, function(data) {
         var view = getVenuesListView(data);
-        $('.list-view').renderView(view);
+        $('.list-view').renderListView(view);
         $.mobile.loading('hide');
     });
 }
 
-function retrieveVenuesList(view, callback, requestLive)
+function retrieveVenuesList(view, callback, requestLive, query)
 {
 	if(typeof requestLive === 'undefined') requestLive = false;
 
@@ -41,7 +63,10 @@ function retrieveVenuesList(view, callback, requestLive)
 	}
 	else
 	{
-		$.get(baseUrl+params[view], function(data) {
+		if(typeof query === 'undefined') query = '';
+
+		console.log(baseUrl+params[view]+query);
+		$.get(baseUrl+params[view]+query, function(data) {
 			callback(data['results']);
 		});
 	}
@@ -94,11 +119,11 @@ function cacheVenues()
 	var currentTime = Math.floor(new Date().getTime() / 1000);
 	window.localStorage.setItem('lastcached', currentTime);
 
-	retrieveVenues('overview', function(data) {
+	retrieveVenuesList('overview', function(data) {
 		window.localStorage.setItem('overview', JSON.stringify(data));
 	}, true);
 	
-	retrieveVenues('quality', function(data) {
+	retrieveVenuesList('quality', function(data) {
 		window.localStorage.setItem('quality', JSON.stringify(data));
 	}, true);
 };
