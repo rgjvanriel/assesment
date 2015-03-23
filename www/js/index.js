@@ -1,55 +1,24 @@
 $(function() {
 
-    Overview();
+    $.fn.renderView = function(html)
+    {
+        console.log(html);
+        $('.list-view').html(html);
+    }
 
-    $(document).on('tap', '.menu li', function(e) {
-        $this = $(e.currentTarget);
-
-        showView($this.data('view'));
-
-        $('.menu li').removeClass('active');
-        $this.addClass('active');
+    $.mobile.loading('show');
+    retrieveVenues($('.menu .active').data('view'), function(data) {
+        var view = getVenuesListView(data);
+        $('.list-view').renderView(view);
+        $.mobile.loading('hide');
     });
 
-    $(".list-view").on('swipeleft', function() {
-        $active = $('.menu .active');
-        $next = $active.next();
+    if(window.localStorage.getItem('lastcached') != null && Math.floor(new Date().getTime() / 1000 - 86400) > window.localStorage.getItem('lastcached'))
+    {
+        cacheVenues();
+    }
 
-        if($next.length > 0)
-        {
-            showView($next.data('view'));
-
-            $('.menu li').removeClass('active');
-            $next.addClass('active');
-        }
-    });
-
-    $(".list-view").on('swiperight', function() {
-        $active = $('.menu .active');
-        $prev = $active.prev();
-
-        if($prev.length > 0)
-        {
-            showView($prev.data('view'));
-
-            $('.menu li').removeClass('active');
-            $prev.addClass('active');
-        }
-    });
-
-    $(".details-view").on('swiperight', function() {
-        showView($('.menu .active').data('view'));
-    });
-
-    var searchTimeout;
-
-    $('.search input').on('keyup', function() {
-        $this = $(this);
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(function() {
-            search($this.val());
-        }, 2000);
-    });
+    /*Overview();
 
     function showView(view)
     {
@@ -152,12 +121,12 @@ $(function() {
     function HideLoading()
     {
         $.mobile.loading('hide');
-    }
+    }*/
 
     /**
      * Retrieve venue information
      */
-    $(document).on('tap', '.list-view li', function(e) {
+    /*$(document).on('tap', '.list-view li', function(e) {
         $this = $(e.currentTarget);
 
         retrieveVenueData($this.data('id'));
@@ -191,6 +160,7 @@ $(function() {
         html += '</ul>';
 
         $('.details-view').append(html);
+<<<<<<< HEAD
     }
 
 
@@ -208,4 +178,16 @@ $(function() {
         window.open('tel:'+number, '_system');
     }
     
+=======
+    }*/
+
+
+    var template = Handlebars.compile($('#page-home').html());
+    $('#content').html(template(
+        {
+
+        }));
+
+
+>>>>>>> a261b74ae3a1668c6ebc90a5cbea49a679941fe0
 });
