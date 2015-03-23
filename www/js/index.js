@@ -207,13 +207,5 @@ $(function() {
     {
         window.open('tel:'+number, '_system');
     }
-
-
-    var template = Handlebars.compile($('#page-home').html());
-    $('#content').html(template(
-        {
-
-        }));
-
-
+    
 });

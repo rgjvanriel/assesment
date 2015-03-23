@@ -32,31 +32,7 @@
         <title>Eet.nu app</title>
     </head>
     <body>
-        <script type="text/x-handlebars-template" id="page-settings">
-            <span class="btn btn-back">< back</span>
-
-            <ul id="settings-page">
-                {{#settings}}
-
-                <li>
-                    <span>
-                        <label for="checkbox">{{niceName}}</label><input type="checkbox" name="{{name}}">
-                    </span>
-                </li>
-
-                {{/settings}}
-            </ul>
-
-            <button class="btn btn-primary btn-save">Save</button>
-        </script>
-
-        <script type="text/x-handlebars-template" id="page-home">
-            <ul class="list-view"></ul>
-
-            <div class="details-view"></div>
-        </script>
-
-        
+       
         <div id="menu-box">
             <span class="settings-btn" data-template-id="page-settings">Settings</span>
         </div>
@@ -78,16 +54,38 @@
             
             <div id="content">
                 
+                <div class="settings-page" style="display: none;">
+                    <span class="btn settings-back-btn">< back</span>
+
+                    <ul id="settings-page">
+
+                        <li>
+                            <span>
+                                <label for="checkbox">Cache time</label>
+                                <input type="text" value="" class="cache-time">
+                            </span>
+                        </li>
+
+                    </ul>
+
+                    <button class="btn btn-primary btn-save">Save</button>
+                </div>
                 
+                <div class="default-page">
+                    <ul class="list-view"></ul>
+
+                    <div class="details-view"></div>
+                </div>
 
             </div>
+
+
         </div>
 
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="http://www.google.com/jsapi"></script>
         <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
         <script type="text/javascript" src="js/jquery.mobile-1.3.2.min.js"></script>
-        <script type="text/javascript" src="js/handlebars-v3.0.0.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/settings.js"></script>
     </body>
