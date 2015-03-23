@@ -16,10 +16,17 @@ $(function()
 
     $('.settings-view .save').on('tap', function(e)
     {
+        
+
         // save local settings..
         window.localStorage.setItem("cache_time", $('.cache-time').val());
 
-        $('.settings-view').hide();
-        $('.app-views').show();
+        if(window.localStorage.getItem(cache_item) != null)
+        {
+            navigator.notification.vibrate(1000);
+
+            $('.settings-view').hide();
+            $('.app-views').show();
+        }
     });
 });

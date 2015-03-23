@@ -5,11 +5,13 @@
 var baseUrl = 'https://api.eet.nu/venues';
 var maxDistance = 5000;
 var isDebug = true;
+var lat = 0;
+var lng = 0;
 
 var params = {
 	'overview'	: '?1=1',
 	'quality'	: '?sort_by=reviews',
-	'distance'	: '?max_distance='+maxDistance+'&geolocation='+google.loader.ClientLocation.latitude+','+google.loader.ClientLocation.longitude,
+	'distance'	: '?max_distance='+maxDistance+'&geolocation='+lat+','+lng,
 	'search'	: '?query='
 };
 
@@ -65,7 +67,20 @@ function retrieveVenuesList(view, callback, requestLive, query)
 	{
 		if(typeof query === 'undefined') query = '';
 
-		console.log(baseUrl+params[view]+query);
+		if(view == 'distance')
+		{
+			function onSuccess(position) {
+				lat = position.coords.latitude;
+				lng = position.coords.longitude;
+			};
+
+			function onError(error) {
+			    alert('Kon de geolocaties niet ophalen, kijk of u geolocaties aan heeft staan.');
+			}
+
+			navigator.geolocation.getCurrentPosition(onSuccess, onError);
+		}
+
 		$.get(baseUrl+params[view]+query, function(data) {
 			callback(data['results']);
 		});

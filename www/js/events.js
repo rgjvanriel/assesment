@@ -1,6 +1,6 @@
 $(function() {
 
-	$(document).on('tap', '.menu li', function(e) {
+	$(document).on('click', '.menu li', function(e) {
         $this = $(e.currentTarget);
         createVenuesListView($this.data('view'));
 
@@ -8,7 +8,7 @@ $(function() {
         $this.addClass('active');
     });
 
-    $(document).on('tap', '.list-view li', function(e) {
+    $(document).on('click', '.list-view li', function(e) {
         $this = $(e.currentTarget);
 
         $.mobile.loading('show');
@@ -19,7 +19,7 @@ $(function() {
         });
     });
 
-    $(document).on('tap', '.details-view .back', function(e) {
+    $(document).on('click', '.details-view .back', function(e) {
         $('.app-views .details-view').hide();
         $('.app-views .list-view').show();
     });
@@ -75,7 +75,7 @@ $(function() {
     /**
      * Call number via native
      */
-    $(document).on('tap', '.call', function(e) {
+    $(document).on('click', '.call', function(e) {
         $this = $(e.currentTarget);
 
         window.open('tel:'+$this.html(), '_system');
