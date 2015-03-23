@@ -33,7 +33,7 @@ $(function() {
 
         if($next.length > 0)
         {
-            showView($next.data('view'));
+            createVenuesListView($this.data('view'));
 
             $('.menu li').removeClass('active');
             $next.addClass('active');
@@ -46,7 +46,7 @@ $(function() {
 
         if($prev.length > 0)
         {
-            showView($prev.data('view'));
+            createVenuesListView($this.data('view'));
 
             $('.menu li').removeClass('active');
             $prev.addClass('active');
@@ -54,7 +54,7 @@ $(function() {
     });
 
     $(".details-view").on('swiperight', function() {
-        showView($('.menu .active').data('view'));
+        createVenuesListView($('.menu .active').data('view'));
     });
 
 
