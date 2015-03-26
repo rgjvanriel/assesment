@@ -103,6 +103,18 @@ function getVenuesListView(data)
 /**
  * Details view
  */
+function createVenuesDetailView(id)
+{
+	$.mobile.loading('show');
+    retrieveVenueDetails(id, function(data) {
+    	retrieveVenueRatings(id, function(ratings) {
+    		var view = getVenueDetailsView(data, ratings);
+	        $('.details-view').renderDetailsView(view);
+	        $.mobile.loading('hide');
+    	});
+    });
+}
+
 function retrieveVenueDetails(id, callback)
 {
 	$.get(baseUrl+"/"+id, function(data) {
@@ -110,11 +122,35 @@ function retrieveVenueDetails(id, callback)
 	});
 }
 
-function getVenueDetailsView(data)
+function getVenueDetailsView(data, ratings)
 {
 	if(data.description == null) data.description = '';
 
+	var scores = {
+		'food'		: 0,
+		'ambiance'	: 0,
+		'service'	: 0,
+		'value'		: 0
+	};
+
+	var scoresAmount = {
+		'food'		: 0,
+		'ambiance'	: 0,
+		'service'	: 0,
+		'value'		: 0
+	}
+
 	var html = '<h2>'+data.name+'</h2><span class="category">'+data.category+'</span><p class="description">'+data.description+'</p><ul class="contact"><li>Website: <a href="'+data.url+'">ga naar eet.nu</a></li><li >Telefoonnummer: <span class="call">'+data.telephone+'</span></li></ul>';
+	
+	$.each(ratings.results, function(key, value) {
+		$.each(value.scores, function(key, value) {
+			if(value != null) ++scoresAmount[key];
+			scores[key] = (scores[key] + value)
+		});
+	});
+
+	html += '<ul class="ratings"><li>Eten: '+Math.round((scores['food'] / scoresAmount['food']))+'</li><li>Sfeer: '+Math.round((scores['ambiance'] / scoresAmount['ambiance']))+'</li><li>Service: '+Math.round((scores['service'] / scoresAmount['service']))+'</li><li>Prijs/kwaliteit: '+Math.round((scores['value'] / scoresAmount['value']))+'</li></ul>';
+
 
     html += '<ul class="images">';
     $.each(data.images.original, function(key,value) {
@@ -123,6 +159,16 @@ function getVenueDetailsView(data)
     html += '</ul><span class="back">< Terug</span>';
 
 	return html;
+}
+
+/**
+ * Venue ratings
+ */
+function retrieveVenueRatings(id, callback)
+{
+	$.get(baseUrl+"/"+id+"/reviews", function(data) {
+		callback(data);
+	});
 }
 
 /**

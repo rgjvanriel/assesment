@@ -1,27 +1,28 @@
 $(function() {
 
-	$(document).on('click', '.menu li', function(e) {
+	$(document).on('tap', '.menu li', function(e) {
         $this = $(e.currentTarget);
         createVenuesListView($this.data('view'));
 
         $('.menu li').removeClass('active');
         $this.addClass('active');
+
+        return false;
     });
 
-    $(document).on('click', '.list-view li', function(e) {
+    $(document).on('tap', '.list-view li', function(e) {
         $this = $(e.currentTarget);
 
-        $.mobile.loading('show');
-        retrieveVenueDetails($this.data('id'), function(data) {
-            var view = getVenueDetailsView(data);
-            $('.details-view').renderDetailsView(view);
-            $.mobile.loading('hide');
-        });
+        createVenuesDetailView($this.data('id'));
+
+        return false;
     });
 
-    $(document).on('click', '.details-view .back', function(e) {
+    $(document).on('tap', '.details-view .back', function(e) {
         $('.app-views .details-view').hide();
         $('.app-views .list-view').show();
+
+        return false;
     });
 
 
@@ -75,10 +76,12 @@ $(function() {
     /**
      * Call number via native
      */
-    $(document).on('click', '.call', function(e) {
+    $(document).on('tap', '.call', function(e) {
         $this = $(e.currentTarget);
 
         window.open('tel:'+$this.html(), '_system');
+
+        return false;
     });
 
 });
